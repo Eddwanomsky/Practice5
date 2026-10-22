@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { getCars, getCarById, createCar, updateCar, deleteCar } from 'controllers/cars/CarController';
+import { createCar } from '../../controllers/cars/CarController';
+import { list as listCars } from '../../controllers/cars/list';
+import { validatorCreateCar } from '../../middleware/validation/car/validatorCreateCar';
+import { checkJwt } from '../../middleware/checkJwt';
 
 const router = Router();
 
-router.get('/', getCars);
-router.get('/:id', getCarById);
-router.post('/', createCar);
-router.put('/:id', updateCar);
-router.delete('/:id', deleteCar);
+router.post('/', [checkJwt, validatorCreateCar], createCar);
+router.get('/', [checkJwt], listCars);
 
 export default router;
